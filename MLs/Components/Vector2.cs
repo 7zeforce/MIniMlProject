@@ -1,4 +1,5 @@
-﻿
+﻿using MLs.Components;
+
 namespace MLs.Components
 {
     public struct Vector2
@@ -12,7 +13,7 @@ namespace MLs.Components
 
         public Vector2 TurnAngle(double angle)
         {
-            Matrix2x2 m = new Matrix2x2((float)Math.Cos(angle), (float)-Math.Sin(angle), (float)Math.Sin(angle), (float)Math.Cos(angle));
+            Matrix2x2 m = new Matrix2x2(Math.Cos(angle), -Math.Sin(angle), Math.Sin(angle), Math.Cos(angle));
             return this * m;
         }
     }
