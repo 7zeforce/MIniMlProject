@@ -52,14 +52,6 @@ namespace MLs
             return (k,b);
         }
 
-        public (List<double> Normalized, double Mean, double Std) Standardize(List<double> values)
-        {
-            double mean = values.Average();
-            double std = Math.Sqrt(values.Sum(x => (x - mean) * (x - mean))/values.Count);
-            if (std == 0) return (values, mean, 1.0);
-            return (values.Select(v => (v - mean) / std).ToList(), mean, std);
-        }
-
         public double MSE(double k, double b)
         {
             double summ = 0;
