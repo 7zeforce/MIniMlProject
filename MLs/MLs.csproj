@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\ProjectC#\MIniMlProject\MLs\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\ProjectC#\MIniMlProject\MLs\.editorconfig" />
+  </ItemGroup>
+
 </Project>

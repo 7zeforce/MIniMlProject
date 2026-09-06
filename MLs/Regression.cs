@@ -19,6 +19,29 @@ namespace MLs
             return predictions;
         }
 
+        public virtual double[][] Normalize(double[][] X, double[] mean, double[] std)
+        {
+            int n = X.Length, m = X[0].Length;
+            double[][] X_norm = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                X_norm[i] = new double[m];
+                for (int j = 0; j < m; j++)
+                    X_norm[i][j] = std[j] != 0 ? (X[i][j] - mean[j]) / std[j] : 1;
+            }
+            return X_norm;
+        }
+
+        public virtual (T[] Train, T[] Test) TrainTestSplit<T>(T[] data, double testRatio = 0.2, int seed = 42)
+        {
+            var rng = new Random(seed);
+            var shuffled = data.OrderBy(_ => rng.Next()).ToArray();
+            int testSize = (int)(shuffled.Length * testRatio);
+            var test = shuffled.Take(testSize).ToArray();
+            var train = shuffled.Skip(testSize).ToArray();
+            return (train, test);
+        }
+
         public virtual (double[][] Normalized, double[] Mean, double[] Std) Standardize(double[][] X)
         {
             int n = X.Length;

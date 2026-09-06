@@ -4,13 +4,13 @@ namespace MLs
     public class LinearRegression : Regression
     {
         public double[] Weights { get => _weights; set => _weights = value; }
-        public LinearRegression(double[] weights, double bias)
+        public LinearRegression(double[] weights, double bias = 0)
         {
             _weights = weights;
             _bias = bias;
         }
 
-        public void Fit(double[][] X, double[] Y, double learningRate, int epochs = 1000)
+        public void Fit(double[][] X, double[] Y, double learningRate, double lambda, int epochs = 1000)
         {
             for(int epoch = 1; epoch <= epochs; epoch++)
             {
@@ -26,6 +26,7 @@ namespace MLs
                 for (int j = 0; j < _weights.Length; j++)
                 {
                     gradY[j] *= factor;
+                    gradY[j] += 2 * lambda * _weights[j];
                     _weights[j] -= learningRate * gradY[j];
                 }
                 gradB *= factor;
