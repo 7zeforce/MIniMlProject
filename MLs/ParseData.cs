@@ -15,12 +15,14 @@ namespace MLs
             {
                 int magicImages = ReadBigEndianInt32(brImages);
                 int numImages = ReadBigEndianInt32(brImages);
+                int numRows = ReadBigEndianInt32(brImages);
+                int numCols = ReadBigEndianInt32(brImages);
                 int magicLabels = ReadBigEndianInt32(brLabels);
                 int numLabels = ReadBigEndianInt32(brLabels);
                 di = new DigitImage[numImages];
                 for (int i = 0; i < numImages; i++)
                 {
-                    di[i] = new DigitImage { Label = brLabels.ReadByte(), Pixels = brImages.ReadBytes(28 * 28) };
+                    di[i] = new DigitImage { Label = brLabels.ReadByte(), Pixels = brImages.ReadBytes(numRows * numCols) };
                 }
             }
             return di;

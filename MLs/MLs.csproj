@@ -15,4 +15,8 @@
     <None Include="C:\ProjectC#\MIniMlProject\MLs\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
 </Project>

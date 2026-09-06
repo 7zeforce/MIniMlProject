@@ -3,7 +3,7 @@ namespace MLs
 {
     public class NeuralNetwork
     {
-        public Random rand = new Random(41);
+        public Random rand = new Random(42);
 
         protected double[][] weights1;
         protected double[][] weights2;
@@ -98,8 +98,6 @@ namespace MLs
 
         public virtual double[] ReLU(double[] z) => z.Select(x => Math.Max(0, x)).ToArray();
 
-        public virtual double[] ReLUDerevative(double[] z) => z.Select(x => x > 0 ? 1.0 : 0.0).ToArray();
-
         public virtual double[] SoftMax(double[] z)
         {
             double max = z.Max();
@@ -111,10 +109,10 @@ namespace MLs
         public virtual double[] MultiplyMatrixVector(double[][] W, double[] x, double[] b)
         {
             double[] z = new double[W.Length];
-            for (int i = 0; i <= W.Length; i++)
+            for (int i = 0; i < W.Length; i++)
             {
                 double sum = 0;
-                for (int j = 0; j <= W[i].Length; j++) sum += W[i][j] * x[j];
+                for (int j = 0; j < W[i].Length; j++) sum += W[i][j] * x[j];
                 z[i] += sum + b[i];
             }
             return z;
@@ -122,10 +120,34 @@ namespace MLs
 
         public virtual double[] Predict(double[] x) => SoftMax(MultiplyMatrixVector(weights2, ReLU(MultiplyMatrixVector(weights1, x, bias1)), bias2));
         
+        public virtual double ComputeAccuracy(double[][] X, double[][] Y)
+        {
+            int ans = 0;
+            for(int i = 0; i < X.Length; i++)
+            {
+                double[] a2 = Predict(X[i]);
+                if (AgrMax(a2) == AgrMax(Y[i])) ans++;
+            }
+            return ans/X.Length;
+        }
+        
+
+        public double AgrMax(double[] m)
+        {
+            int maxAgr = 0;
+            for (int i = 1; i < m.Length; i++) maxAgr = m[i] > m[maxAgr] ? i : maxAgr;
+            return maxAgr;
+        }
+
+
         private double[][] InitializeWeights(int n, int m)
         {
-            double[][] W = new double[n][]; 
-            for (int i = 0; i <= n; i++) for (int j = 0; j < m; j++) W[i][j] = (rand.NextDouble()-0.5)*0.01;
+            double[][] W = new double[n][];
+            for (int i = 0; i < n; i++)
+            {
+                W[i] = new double[m];
+                for (int j = 0; j < m; j++) W[i][j] = (rand.NextDouble() - 0.5) * 0.01;
+            }
             return W;
         }
     }
